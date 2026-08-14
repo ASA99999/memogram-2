@@ -7,6 +7,7 @@ import {
   Plus,
   Minus,
   Sparkles,
+  Loader2,
 } from "lucide-react";
 
 import type { ReadyProduct } from "./ReadyProducts";
@@ -16,75 +17,113 @@ type OrderFormProps = {
   readyProductsTotal: number;
 };
 
+type ImageItem = {
+  file: File;
+  preview: string;
+};
+
 export default function OrderForm({
   readyProducts,
   readyProductsTotal,
 }: OrderFormProps) {
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<ImageItem[]>([]);
   const [qty, setQty] = useState(1);
   const [ai, setAi] = useState("no");
 
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [product, setProduct] = useState("Хөргөгчний наалт");
+  const [size, setSize] = useState("53x80");
+  const [description, setDescription] = useState("");
+
+  const [submitting, setSubmitting] = useState(false);
+
   const price = 4500;
 
-  // Үндсэн бүтээгдэхүүний үнэ
   const mainProductTotal = price * qty;
+  const grandTotal = mainProductTotal + readyProductsTotal;
 
-  // Бүгдийн нийт үнэ
-  const grandTotal =
-    mainProductTotal + readyProductsTotal;
-
-  // Олон зураг upload хийх
+  // Олон зураг сонгох (preview зөвхөн, upload submit дээр хийгдэнэ)
   const handleUpload = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const files = Array.from(e.target.files || []);
 
-    const urls = files.map((file) =>
-      URL.createObjectURL(file)
-    );
+    const newItems: ImageItem[] = files.map((file) => ({
+      file,
+      preview: URL.createObjectURL(file),
+    }));
 
-    setImages((prev) =>
-      [...prev, ...urls].slice(0, 20)
-    );
+    setImages((prev) => [...prev, ...newItems].slice(0, 20));
 
     e.target.value = "";
   };
 
   const removeImage = (index: number) => {
-    setImages((prev) =>
-      prev.filter((_, i) => i !== index)
-    );
+    setImages((prev) => {
+      URL.revokeObjectURL(prev[index].preview);
+      return prev.filter((_, i) => i !== index);
+    });
   };
 
-  // Захиалгын data
-  const handleSubmit = () => {
-    const orderData = {
-      mainProduct: {
-        name: "Хөргөгчний наалт",
-        size: "53x80",
-        price: price,
-        quantity: qty,
-      },
+  const handleSubmit = async () => {
+    if (!name || !phone) {
+      alert("Нэр болон утасны дугаараа оруулна уу");
+      return;
+    }
 
-      readyProducts: readyProducts.map((product) => ({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        quantity: product.quantity,
-        total: product.price * product.quantity,
-      })),
+    if (images.length === 0) {
+      alert("Дор хаяж 1 зураг оруулна уу");
+      return;
+    }
 
-      ai,
-      images,
+    setSubmitting(true);
 
-      mainProductTotal,
-      readyProductsTotal,
-      grandTotal,
-    };
+    try {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("phone", phone);
+      formData.append("email", email);
+      formData.append("product", product);
+      formData.append("size", size);
+      formData.append("qty", String(qty));
+      formData.append("ai", ai);
+      formData.append("description", description);
+      formData.append("grandTotal", String(grandTotal));
 
-    console.log("ЗАХИАЛГЫН DATA:", orderData);
+      images.forEach((img) => {
+        formData.append("images", img.file);
+      });
 
-    alert("Захиалгын мэдээлэл console дээр гарлаа.");
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Алдаа гарлаа");
+      }
+
+      alert("Захиалга амжилттай илгээгдлээ!");
+
+      // Формыг цэвэрлэх
+      images.forEach((img) => URL.revokeObjectURL(img.preview));
+      setImages([]);
+      setName("");
+      setPhone("");
+      setEmail("");
+      setDescription("");
+      setQty(1);
+      setAi("no");
+    } catch (err) {
+      console.error(err);
+      alert("Захиалга илгээхэд алдаа гарлаа. Дахин оролдоно уу.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -106,6 +145,8 @@ export default function OrderForm({
               <input
                 type="text"
                 placeholder="Нэр"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-[#ff6b6b]"
               />
 
@@ -113,6 +154,8 @@ export default function OrderForm({
               <input
                 type="tel"
                 placeholder="Утасны дугаар"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-[#ff6b6b]"
               />
 
@@ -120,11 +163,15 @@ export default function OrderForm({
               <input
                 type="email"
                 placeholder="Имэйл"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-[#ff6b6b]"
               />
 
               {/* PRODUCT */}
               <select
+                value={product}
+                onChange={(e) => setProduct(e.target.value)}
                 className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none"
               >
                 <option>Хөргөгчний наалт</option>
@@ -133,6 +180,8 @@ export default function OrderForm({
 
               {/* SIZE */}
               <select
+                value={size}
+                onChange={(e) => setSize(e.target.value)}
                 className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none"
               >
                 <option>53x80</option>
@@ -222,6 +271,8 @@ export default function OrderForm({
               <textarea
                 placeholder="Нэмэлт тайлбар..."
                 rows={4}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 className="w-full resize-none rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-[#ff6b6b]"
               />
 
@@ -229,9 +280,13 @@ export default function OrderForm({
               <button
                 type="button"
                 onClick={handleSubmit}
-                className="w-full rounded-xl bg-[#ff6b6b] py-3 font-semibold text-white transition hover:bg-[#fd4b4b]"
+                disabled={submitting}
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#ff6b6b] py-3 font-semibold text-white transition hover:bg-[#fd4b4b] disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Захиалга илгээх
+                {submitting && (
+                  <Loader2 size={18} className="animate-spin" />
+                )}
+                {submitting ? "Илгээж байна..." : "Захиалга илгээх"}
               </button>
 
             </div>
@@ -283,12 +338,12 @@ export default function OrderForm({
 
                   {images.map((img, index) => (
                     <div
-                      key={`${img}-${index}`}
+                      key={`${img.preview}-${index}`}
                       className="group relative overflow-hidden rounded-xl border"
                     >
 
                       <img
-                        src={img}
+                        src={img.preview}
                         alt={`Зураг ${index + 1}`}
                         className="h-32 w-full object-cover"
                       />
@@ -320,7 +375,7 @@ export default function OrderForm({
               {/* Үндсэн бүтээгдэхүүн */}
               <div className="flex justify-between text-gray-600">
                 <span>
-                  Хөргөгчний наалт × {qty}
+                  {product} × {qty}
                 </span>
 
                 <span>
