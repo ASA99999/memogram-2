@@ -9,28 +9,82 @@ import {
   Sparkles,
 } from "lucide-react";
 
-export default function OrderForm() {
+import type { ReadyProduct } from "./ReadyProducts";
+
+type OrderFormProps = {
+  readyProducts: ReadyProduct[];
+  readyProductsTotal: number;
+};
+
+export default function OrderForm({
+  readyProducts,
+  readyProductsTotal,
+}: OrderFormProps) {
   const [images, setImages] = useState<string[]>([]);
   const [qty, setQty] = useState(1);
   const [ai, setAi] = useState("no");
+
   const price = 4500;
+
+  // Үндсэн бүтээгдэхүүний үнэ
+  const mainProductTotal = price * qty;
+
+  // Бүгдийн нийт үнэ
+  const grandTotal =
+    mainProductTotal + readyProductsTotal;
+
   // Олон зураг upload хийх
   const handleUpload = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const files = Array.from(e.target.files || []);
+
     const urls = files.map((file) =>
       URL.createObjectURL(file)
     );
+
     setImages((prev) =>
       [...prev, ...urls].slice(0, 20)
     );
+
     e.target.value = "";
   };
+
   const removeImage = (index: number) => {
     setImages((prev) =>
       prev.filter((_, i) => i !== index)
     );
+  };
+
+  // Захиалгын data
+  const handleSubmit = () => {
+    const orderData = {
+      mainProduct: {
+        name: "Хөргөгчний наалт",
+        size: "53x80",
+        price: price,
+        quantity: qty,
+      },
+
+      readyProducts: readyProducts.map((product) => ({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: product.quantity,
+        total: product.price * product.quantity,
+      })),
+
+      ai,
+      images,
+
+      mainProductTotal,
+      readyProductsTotal,
+      grandTotal,
+    };
+
+    console.log("ЗАХИАЛГЫН DATA:", orderData);
+
+    alert("Захиалгын мэдээлэл console дээр гарлаа.");
   };
 
   return (
@@ -39,6 +93,7 @@ export default function OrderForm() {
         <div className="grid gap-8 lg:grid-cols-2">
 
           {/* ================= LEFT FORM ================= */}
+
           <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
 
             <h2 className="mb-6 text-xl font-semibold">
@@ -173,6 +228,7 @@ export default function OrderForm() {
               {/* SUBMIT */}
               <button
                 type="button"
+                onClick={handleSubmit}
                 className="w-full rounded-xl bg-[#ff6b6b] py-3 font-semibold text-white transition hover:bg-[#fd4b4b]"
               >
                 Захиалга илгээх
@@ -181,7 +237,8 @@ export default function OrderForm() {
             </div>
           </div>
 
-          {/* ================= RIGHT UPLOAD ================= */}
+          {/* ================= RIGHT ================= */}
+
           <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
 
             <h2 className="mb-6 text-xl font-semibold">
@@ -236,7 +293,6 @@ export default function OrderForm() {
                         className="h-32 w-full object-cover"
                       />
 
-                      {/* REMOVE */}
                       <button
                         type="button"
                         onClick={() =>
@@ -257,29 +313,64 @@ export default function OrderForm() {
               </div>
             )}
 
-            {/* PRICE */}
+            {/* ================= PRICE ================= */}
+
             <div className="mt-10 rounded-2xl bg-gray-50 p-5">
 
+              {/* Үндсэн бүтээгдэхүүн */}
               <div className="flex justify-between text-gray-600">
-                <span>Нэгж үнэ</span>
+                <span>
+                  Хөргөгчний наалт × {qty}
+                </span>
 
                 <span>
-                  {price.toLocaleString()}₮
+                  {mainProductTotal.toLocaleString()}₮
                 </span>
               </div>
 
-              <div className="mt-3 flex justify-between text-lg font-bold text-gray-900">
+              {/* Бэлэн бүтээгдэхүүнүүд */}
+              {readyProducts.length > 0 && (
+                <div className="mt-4 border-t border-gray-200 pt-4">
+
+                  <p className="mb-3 text-sm font-semibold text-gray-700">
+                    Нэмсэн бүтээгдэхүүн
+                  </p>
+
+                  <div className="space-y-2">
+                    {readyProducts.map((product) => (
+                      <div
+                        key={product.id}
+                        className="flex justify-between text-sm text-gray-600"
+                      >
+                        <span>
+                          {product.name} × {product.quantity}
+                        </span>
+
+                        <span>
+                          {(
+                            product.price *
+                            product.quantity
+                          ).toLocaleString()}₮
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                </div>
+              )}
+
+              {/* НИЙТ */}
+              <div className="mt-4 flex justify-between border-t border-gray-200 pt-4 text-lg font-bold text-gray-900">
                 <span>Нийт</span>
 
                 <span>
-                  {(price * qty).toLocaleString()}₮
+                  {grandTotal.toLocaleString()}₮
                 </span>
               </div>
 
             </div>
 
           </div>
-
         </div>
       </div>
     </section>
