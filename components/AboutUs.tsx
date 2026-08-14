@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import FadeUp from "@/components/FadeUp";
-import { CheckCircle2, Palette, PhoneCall } from "lucide-react";
+import { CheckCircle2, Palette, PhoneCall, Camera } from "lucide-react";
 
 export function AboutUs() {
   return (
@@ -49,7 +49,7 @@ export function AboutUs() {
 
               <div className="relative overflow-hidden rounded-[32px] bg-white shadow-2xl">
                 <Image
-                  src="/image/about.jpg"
+                  src="/image/photo-11.png"
                   alt="Memogram"
                   width={700}
                   height={700}
@@ -108,6 +108,63 @@ export function AboutUs() {
                 <br />
                 Facebook, Instagram болон утсаар захиалга авна.
               </p>
+            </div>
+
+          </div>
+          {/* Memory CTA */}
+          <div className="relative mt-20 overflow-hidden rounded-[28px] bg-[#FFF0EC] px-8 py-10 md:px-14 md:py-12">
+
+            {/* Left Illustration */}
+            <div className="flex items-center justify-center md:absolute md:left-10 md:top-1/2 md:-translate-y-1/2">
+              <div className="relative flex h-28 w-36 items-center justify-center">
+
+                {/* Back photo */}
+                <div className="absolute left-1 top-5 h-20 w-24 rotate-[-10deg] rounded-lg border-2 border-slate-400 bg-white shadow-sm">
+                  <div className="flex h-full items-center justify-center">
+                    <div className="h-12 w-16 rounded bg-[#FFE1D8]" />
+                  </div>
+                </div>
+
+                {/* Camera */}
+                <div className="relative z-10 flex h-20 w-28 rotate-[4deg] items-center justify-center rounded-xl border-2 border-slate-500 bg-white shadow-md">
+                  <Camera className="h-11 w-11 text-slate-600" />
+
+                  <div className="absolute -right-2 -top-3 text-xl">
+                    ✦
+                  </div>
+                </div>
+
+                {/* Heart */}
+                <div className="absolute -bottom-1 right-2 text-3xl text-[#ff6b6b]">
+                  ♡
+                </div>
+
+              </div>
+            </div>
+
+
+            {/* Center Text */}
+            <div className="mx-auto max-w-md text-center">
+              <h2 className="text-2xl font-extrabold text-slate-900 md:text-3xl">
+                Дурсамжаа нандигнаарай
+                <span className="ml-2 text-[#ff6b6b]">♡</span>
+              </h2>
+
+              <p className="mt-3 text-sm leading-7 text-slate-600 md:text-base">
+                Зургаа илгээж, соронзон зураг болгон хадгалуулаарай.
+              </p>
+            </div>
+
+
+            {/* Button */}
+            <div className="mt-6 flex justify-center md:absolute md:right-10 md:top-1/2 md:mt-0 md:-translate-y-1/2">
+              <a
+                href="#order"
+                className="inline-flex items-center gap-3 rounded-xl bg-[#ff6b6b] px-7 py-4 text-sm font-bold text-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:bg-[#ff5757] hover:shadow-lg"
+              >
+                Захиалга өгөх
+                <span className="text-lg">→</span>
+              </a>
             </div>
 
           </div>

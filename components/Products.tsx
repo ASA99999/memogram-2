@@ -1,13 +1,12 @@
 import Image from "next/image";
 import FadeUp from "@/components/FadeUp";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 const products = [
   { title: "Luffy", image: "/image/luffy.jpg", category: "Anime", price: "4,500₮" },
-  { title: "Монгол байгаль", image: "/image/mongol-nature.png", category: "Nature", price: "4,500₮" },
+  { title: "сайхны хөтөл", image: "/image/saihanii-hotol.jpg", category: "Nature", price: "4,500₮" },
   { title: "Goku", image: "/image/anime.png", category: "Anime", price: "4,500₮" },
-  { title: "Anime Style", image: "/image/anime.png", category: "Anime", price: "4,500₮" },
-  { title: "Anime Style", image: "/image/anime.png", category: "Anime", price: "4,500₮" },
   { title: "Anime Style", image: "/image/anime.png", category: "Anime", price: "4,500₮" },
 ];
 
@@ -23,7 +22,7 @@ export default function Products() {
             <h2 className="mt-3 text-3xl font-bold text-slate-900">
               Бэлэн бүтээгдэхүүн
             </h2>
-            <p className="mt-2 text-sm text-slate-500">
+            <p className="mt-2 text-sm text-slate-800">
               Дуртай загвараа сонгон захиалаарай.
             </p>
           </div>
@@ -58,10 +57,11 @@ export default function Products() {
                       <span className="text-base font-bold text-[#ff6b6b]">
                         {item.price}
                       </span>
-
-                      <button className="flex h-8 w-8 items-center justify-center rounded-full bg-[#ff6b6b] text-white shadow-sm transition hover:scale-105">
-                        <ArrowRight size={14} />
-                      </button>
+                      <Link href="/order">
+                          <button className="flex h-8 w-8 items-center justify-center rounded-full bg-[#ff6b6b] text-white shadow-sm transition hover:scale-105">
+                            <ArrowRight size={14} />
+                          </button>
+                      </Link>
                     </div>
                   </div>
                 </div>

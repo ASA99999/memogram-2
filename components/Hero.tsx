@@ -52,13 +52,6 @@ export function Hero() {
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
-
-            <Button
-              variant="outline"
-              className="h-12 rounded-full px-8"
-            >
-              Жишээ үзэх
-            </Button>
           </div>
 
           <div className="mt-12 flex gap-10">
