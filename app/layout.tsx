@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="mn">
       <body
-        className={`${fraunces.variable} ${jakarta.variable} bg-background text-foreground antialiased`}
+        className={`${fraunces.variable} bg-background text-foreground antialiased`}
       >
         {children}
       </body>
