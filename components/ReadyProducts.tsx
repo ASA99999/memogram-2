@@ -19,7 +19,7 @@ const products = [
     id: "nature",
     name: "Монгол байгаль",
     price: 4500,
-    image: "/image/mongol-nature.png",
+    image: "/image/elsen-tasarhai.jpg",
   },
   {
     id: "goku",

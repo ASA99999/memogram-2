@@ -23,11 +23,11 @@ export default function OrderPage() {
         </div>
 
         {/* Бэлэн бүтээгдэхүүн */}
-        <ReadyProducts />
+        <OrderForm />
 
         {/* Захиалгын form */}
         <div className="mt-8">
-          <OrderForm />
+          <ReadyProducts />
         </div>
 
       </div>

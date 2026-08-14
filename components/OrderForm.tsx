@@ -34,21 +34,8 @@ export default function OrderForm() {
   };
 
   return (
-    <section className="min-h-screen bg-gray-50 px-4 py-16">
+    <section className="min-h-screen bg-[#FFF8F5] px-4 py-16">
       <div className="mx-auto max-w-6xl">
-
-        {/* TITLE */}
-        <div className="mb-12 text-center">
-          <h1 className="text-4xl font-bold text-gray-900">
-            Захиалга өгөх
-          </h1>
-
-          <p className="mt-3 text-gray-500">
-            Өөрийн хүссэн бүтээгдэхүүнээ хялбархан
-            захиалаарай.
-          </p>
-        </div>
-
         <div className="grid gap-8 lg:grid-cols-2">
 
           {/* ================= LEFT FORM ================= */}
@@ -64,21 +51,21 @@ export default function OrderForm() {
               <input
                 type="text"
                 placeholder="Нэр"
-                className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-blue-400"
+                className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-[#ff6b6b]"
               />
 
               {/* PHONE */}
               <input
                 type="tel"
                 placeholder="Утасны дугаар"
-                className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-blue-400"
+                className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-[#ff6b6b]"
               />
 
               {/* EMAIL */}
               <input
                 type="email"
                 placeholder="Имэйл"
-                className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-blue-400"
+                className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-[#ff6b6b]"
               />
 
               {/* PRODUCT */}
@@ -154,7 +141,7 @@ export default function OrderForm() {
                       value="yes"
                       checked={ai === "yes"}
                       onChange={() => setAi("yes")}
-                      className="accent-blue-600"
+                      className="accent-[#ff3434]"
                     />
 
                     <span>Тийм</span>
@@ -167,7 +154,7 @@ export default function OrderForm() {
                       value="no"
                       checked={ai === "no"}
                       onChange={() => setAi("no")}
-                      className="accent-blue-600"
+                      className="accent-[#ff5353]"
                     />
 
                     <span>Үгүй</span>
@@ -180,13 +167,13 @@ export default function OrderForm() {
               <textarea
                 placeholder="Нэмэлт тайлбар..."
                 rows={4}
-                className="w-full resize-none rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-blue-400"
+                className="w-full resize-none rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-[#ff6b6b]"
               />
 
               {/* SUBMIT */}
               <button
                 type="button"
-                className="w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700"
+                className="w-full rounded-xl bg-[#ff6b6b] py-3 font-semibold text-white transition hover:bg-[#fd4b4b]"
               >
                 Захиалга илгээх
               </button>
@@ -202,11 +189,11 @@ export default function OrderForm() {
             </h2>
 
             {/* UPLOAD BOX */}
-            <label className="flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-300 bg-gray-50 p-10 transition hover:border-blue-400 hover:bg-blue-50">
+            <label className="flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-300 bg-gray-50 p-10 transition hover:border-[#ff6b6b] hover:bg-[#feeaea]">
 
               <Upload
                 size={45}
-                className="text-blue-500"
+                className="text-[#ff6b6b]"
               />
 
               <p className="mt-4 font-medium">
