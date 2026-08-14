@@ -6,7 +6,7 @@ import Link from "next/link";
 const products = [
   { title: "Luffy", image: "/image/luffy.jpg", category: "Anime", price: "4,500₮" },
   { title: "сайхны хөтөл", image: "/image/saihanii-hotol.jpg", category: "Nature", price: "4,500₮" },
-  { title: "Goku", image: "/image/anime.png", category: "Anime", price: "4,500₮" },
+  { title: "Gobi", image: "/image/elsen-tasarhai.jpg", category: "Nature", price: "4,500₮" },
   { title: "Anime Style", image: "/image/anime.png", category: "Anime", price: "4,500₮" },
 ];
 

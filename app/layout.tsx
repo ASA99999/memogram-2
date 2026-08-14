@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
-import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
+import { Fraunces } from "next/font/google";
 import "./globals.css";
 
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-body",
-  weight: ["400", "500", "600", "700", "800"],
-});
+
 
 const fraunces = Fraunces({
   subsets: ["latin"],
