@@ -116,7 +116,7 @@ export async function GET() {
     const grouped: Record<string, OrderRecord> = {};
 
     for (const r of result.resources) {
-      const ctx = r.context?.custom || {};
+    const ctx = (r.context as { custom?: Record<string, string> })?.custom || {};
       const orderId = ctx.orderId || r.public_id;
 
       if (!grouped[orderId]) {
